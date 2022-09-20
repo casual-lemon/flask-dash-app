@@ -1,9 +1,9 @@
 version: '3.4'
 
 services:
-  web:
+  develop:
     build: ./
-    container_name: web
+    container_name: develop
     environment:
       FLASK_ENV: development
       FLASK_APP: app/main

@@ -1,12 +1,33 @@
-from flask import Flask
+import logging
 
+from flask import Flask
+from logging.config import dictConfig
+
+dictConfig({
+    'version': 1,
+    'formatters': {'default': {
+        'format': '%(asctime)s in %(module)s: %(message)s',
+    }},
+    'handlers': {'file': {
+        'class': 'logging.FileHandler',
+        'filename': 'app.log',
+        'formatter': 'default'
+    }},
+    'root': {
+        'level': 'DEBUG',
+        'handlers': ['file']
+    }
+})
 
 app = Flask(__name__, instance_relative_config=True)
 app.config.from_object("config.Config")
+
+# app.logger.removeHandler('werkzeug')
+# app.logger('werkzeug').setLevel(logging.DEBUG)
+
 with app.app_context():
     from . import routes
     from .dash import demo, iris_kmeans, crossfilter_example, cases_example
-
     app = demo.init_dash(app)
     app = iris_kmeans.init_dash(app)
     app = crossfilter_example.init_dash(app)
