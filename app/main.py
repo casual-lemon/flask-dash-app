@@ -21,9 +21,8 @@ dictConfig({
 
 app = Flask(__name__, instance_relative_config=True)
 app.config.from_object("config.Config")
+logger = logging.getLogger(__name__)
 
-# app.logger.removeHandler('werkzeug')
-# app.logger('werkzeug').setLevel(logging.DEBUG)
 
 with app.app_context():
     from . import routes

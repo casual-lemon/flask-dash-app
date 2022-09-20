@@ -1,20 +1,19 @@
-import logging
-
 import pandas as pd
 import plotly.express as px
 from dash import html, Dash, dcc
 from dash.dependencies import Input, Output
-from app.main import app
 
-app.logger.debug("read cases into dataframe")
+from app.main import logger
+
+logger.debug("read cases into dataframe")
 category = ["server", "kernel", "openstack", "ceph", "all"]
 count = [123, 90, 200, 58, 500]
 df = pd.DataFrame({"category": category, "count": count})
-app.logger.debug(df.head())
+logger.debug(df.head())
 
 
 app_layout = html.Div([
-    html.H4('SEG cases by Category'),
+    html.H4('Cases by Category'),
     dcc.Dropdown(
         id="dropdown",
         options=["All", "Ceph", "Kernel", "Openstack", "Server"],
@@ -35,7 +34,6 @@ def render_content():
 
 
 def init_callbacks(app):
-
     app.callback(
         Output("bar-graph", "figure"),
         [
@@ -43,8 +41,8 @@ def init_callbacks(app):
             Input("y-variable", "value"),
         ],
     )(render_content)
-    app.callback(Output("x-variable", "options"), [Input("y-variable", "value")],)
-    app.callback(Output("y-variable", "options"), [Input("x-variable", "value")],)
+    app.callback(Output("x-variable", "options"), [Input("y-variable", "value")], )
+    app.callback(Output("y-variable", "options"), [Input("x-variable", "value")], )
 
     return app
 
@@ -58,15 +56,13 @@ def init_dash(server):
 
     # initialize callbacks
     init_callbacks(app)
-
+    app.logger.info("in init dash")
     return app.server
 
 
 if __name__ == '__main__':
-    app.logger.info("in main cases example app")
+    # main isn't called at all?
+    logger.info("in main cases example app")
     dash = Dash(__name__)
-    app.logger.debug("in cases main")
-    app.logger.info("in cases main")
     init_callbacks(dash)
     dash.run_server(debug=True, port=8080)
-
