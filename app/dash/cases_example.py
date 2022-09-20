@@ -2,7 +2,6 @@ import pandas as pd
 import plotly.express as px
 from dash import html, Dash, dcc
 from dash.dependencies import Input, Output
-
 from app.main import logger
 
 logger.debug("read cases into dataframe")
@@ -61,8 +60,6 @@ def init_dash(server):
 
 
 if __name__ == '__main__':
-    # main isn't called at all?
-    logger.info("in main cases example app")
     dash = Dash(__name__)
     init_callbacks(dash)
     dash.run_server(debug=True, port=8080)
