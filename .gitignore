@@ -13,3 +13,4 @@ build/
 *venv/
 venvflaskapp/
 /app/data
+*.log
